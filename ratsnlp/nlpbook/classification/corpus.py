@@ -9,7 +9,7 @@ from typing import List, Optional
 from torch.utils.data.dataset import Dataset
 from transformers import PreTrainedTokenizer
 from ratsnlp.nlpbook.classification.arguments import ClassificationTrainArguments
-
+import json
 
 logger = logging.getLogger("ratsnlp")
 
