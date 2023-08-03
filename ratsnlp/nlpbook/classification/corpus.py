@@ -43,15 +43,22 @@ class NsmcCorpus:
         
         for item in data:
             text_a = item.get("passage", None)
-            label = item.get("typeId", None)
+            label = item.get("doc_type", None)
             examples.append(ClassificationExample(text_a=text_a, text_b=None, label=label))
     
         return examples
 
     def get_labels(self):
-        labels=[]
-        for i in range (0,10):
-            labels.append(str(i))
+        labels = ['news_r',
+    'briefing',
+    'his_cul',
+    'paper',
+    'minute',
+    'edit',
+    'public',
+    'speech',
+    'literature',
+    'narration' ]
         return labels
 
     @property
