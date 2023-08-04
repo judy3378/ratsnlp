@@ -14,6 +14,9 @@ def get_trainer(args, return_trainer_only=True):
         mode=args.monitor.split()[0],
         filename='{epoch}-{val_loss:.2f}',
     )
+    # Set up the GPU environment
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
     trainer = Trainer(
         max_epochs=args.epochs,
         fast_dev_run=args.test_mode,
@@ -21,13 +24,14 @@ def get_trainer(args, return_trainer_only=True):
         callbacks=[checkpoint_callback],
         default_root_dir=ckpt_path,
         # For GPU Setup
-        deterministic=torch.cuda.is_available() and args.seed is not None,
-        gpus=torch.cuda.device_count() if torch.cuda.is_available() else None,
+        deterministic=True,  # Deterministic mode for reproducibility
+        gpus=-1,  # Use all available GPUs (You can specify specific GPUs using a list [0, 1])
         precision=16 if args.fp16 else 32,
         # For TPU Setup
-        tpu_cores=args.tpu_cores if args.tpu_cores else None,
+        # tpu_cores=args.tpu_cores if args.tpu_cores else None,  # Uncomment this if you have TPUs
     )
+
     if return_trainer_only:
-        return trainer
+        return trainer.to(device)  # Move the trainer to the GPU if available
     else:
-        return checkpoint_callback, trainer
+        return checkpoint_callback, trainer.to(device)  # Move both trainer and callback to the GPU if available
