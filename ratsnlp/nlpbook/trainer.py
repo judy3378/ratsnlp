@@ -27,6 +27,8 @@ def get_trainer(args, return_trainer_only=True):
         deterministic=True,  # Deterministic mode for reproducibility
         gpus=-1,  # Use all available GPUs (You can specify specific GPUs using a list [0, 1])
         precision=16 if args.fp16 else 32,
+        strategy='dp',  # Use Data Parallelism strategy
+    )
         # For TPU Setup
         # tpu_cores=args.tpu_cores if args.tpu_cores else None,  # Uncomment this if you have TPUs
     )
