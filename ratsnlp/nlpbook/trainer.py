@@ -31,7 +31,7 @@ def get_trainer(args, return_trainer_only=True):
     )
         # For TPU Setup
         # tpu_cores=args.tpu_cores if args.tpu_cores else None,  # Uncomment this if you have TPUs
-    )
+
 
     if return_trainer_only:
         return trainer.to(device)  # Move the trainer to the GPU if available
