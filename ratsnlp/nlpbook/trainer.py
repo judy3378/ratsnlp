@@ -3,10 +3,10 @@ import torch
 from pytorch_lightning import Trainer
 from pytorch_lightning.callbacks import ModelCheckpoint
 
-
 def get_trainer(args, return_trainer_only=True):
     ckpt_path = os.path.abspath(args.downstream_model_dir)
     os.makedirs(ckpt_path, exist_ok=True)
+
     checkpoint_callback = ModelCheckpoint(
         dirpath=ckpt_path,
         save_top_k=args.save_top_k,
@@ -14,6 +14,7 @@ def get_trainer(args, return_trainer_only=True):
         mode=args.monitor.split()[0],
         filename='{epoch}-{val_loss:.2f}',
     )
+
     # Set up the GPU environment
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
@@ -29,11 +30,8 @@ def get_trainer(args, return_trainer_only=True):
         precision=16 if args.fp16 else 32,
         strategy='dp',  # Use Data Parallelism strategy
     )
-        # For TPU Setup
-        # tpu_cores=args.tpu_cores if args.tpu_cores else None,  # Uncomment this if you have TPUs
-
 
     if return_trainer_only:
-        return trainer.to(device)  # Move the trainer to the GPU if available
+        return trainer  # No need to use .to(device) for Trainer object
     else:
-        return checkpoint_callback, trainer.to(device)  # Move both trainer and callback to the GPU if available
+        return checkpoint_callback, trainer  # Move both callback and trainer to the GPU if available
