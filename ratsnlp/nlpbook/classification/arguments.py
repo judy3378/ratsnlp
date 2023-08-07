@@ -99,7 +99,7 @@ class ClassificationDeployArguments:
             self.downstream_model_checkpoint_fpath = downstream_model_checkpoint_fpath
         elif downstream_model_dir is not None:
             ckpt_file_names = glob(os.path.join(downstream_model_dir, "*.ckpt"))
-            ckpt_file_names = [el for el in ckpt_file_names if "temp" not in el and "tmp" not in el]
+            ckpt_file_names = [el for el in ckpt_file_names if "temp" not in el and "tmp" not in el and "test_model" not in el and "logs" not in el]
             if len(ckpt_file_names) == 0:
                 raise Exception(f"downstream_model_dir \"{downstream_model_dir}\" is not valid")
             selected_fname = ckpt_file_names[-1]
