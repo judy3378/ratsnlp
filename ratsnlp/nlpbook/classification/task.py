@@ -43,3 +43,17 @@ class ClassificationTask(LightningModule):
         self.log("val_loss", outputs.loss, prog_bar=True, logger=True, on_step=False, on_epoch=True)
         self.log("val_acc", acc, prog_bar=True, logger=True, on_step=False, on_epoch=True)
         return outputs.loss
+
+# 사용자 정의 히스토리 클래스 정의
+class MetricsHistoryCallback(Callback):
+    def __init__(self):
+        self.train_loss_per_epoch = []
+        self.val_loss_per_epoch = []
+        self.train_acc_per_epoch = []
+        self.val_acc_per_epoch = []
+
+    def on_epoch_end(self, trainer, pl_module):
+        self.train_loss_per_epoch.append(trainer.logged_metrics['loss'])
+        self.val_loss_per_epoch.append(trainer.logged_metrics['val_loss'])
+        self.train_acc_per_epoch.append(trainer.logged_metrics['acc'])
+        self.val_acc_per_epoch.append(trainer.logged_metrics['val_acc'])
