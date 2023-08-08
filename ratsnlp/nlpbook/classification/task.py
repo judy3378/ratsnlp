@@ -48,13 +48,12 @@ class ClassificationTask(LightningModule):
 # 사용자 정의 히스토리 클래스 정의
 class MetricsHistoryCallback(Callback):
     def __init__(self):
-        self.train_loss_per_epoch = []
-        self.val_loss_per_epoch = []
-        self.train_acc_per_epoch = []
-        self.val_acc_per_epoch = []
+        self.train_metrics_per_epoch = []
+        self.val_metrics_per_epoch = []
 
     def on_epoch_end(self, trainer, pl_module):
-        self.train_loss_per_epoch.append((trainer.current_epoch, trainer.logged_metrics['loss']))
-        self.val_loss_per_epoch.append((trainer.current_epoch,trainer.logged_metrics['val_loss']))
-        self.train_acc_per_epoch.append((trainer.current_epoch,trainer.logged_metrics['acc']))
-        self.val_acc_per_epoch.append((trainer.current_epoch,trainer.logged_metrics['val_acc']))
+        train_metrics = (trainer.current_epoch, trainer.logged_metrics['loss'], trainer.logged_metrics['acc'])
+        val_metrics = (trainer.current_epoch, trainer.logged_metrics['val_loss'], trainer.logged_metrics['val_acc'])
+        
+        self.train_metrics_per_epoch.append(train_metrics)
+        self.val_metrics_per_epoch.append(val_metrics)
