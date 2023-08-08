@@ -2,6 +2,8 @@ import os
 import torch
 from pytorch_lightning import Trainer
 from pytorch_lightning.callbacks import ModelCheckpoint
+from pytorch_lightning.loggers import TensorBoardLogger
+
 
 def get_trainer(args, return_trainer_only=True):
     ckpt_path = os.path.abspath(args.downstream_model_dir)
@@ -17,6 +19,9 @@ def get_trainer(args, return_trainer_only=True):
 
     # Set up the GPU environment
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+    # Create a TensorBoard logger
+    tb_logger = TensorBoardLogger(save_dir=ckpt_path, name='logs')
 
     trainer = Trainer(
         max_epochs=args.epochs,
