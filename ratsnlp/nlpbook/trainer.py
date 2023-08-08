@@ -3,11 +3,8 @@ import torch
 from pytorch_lightning import Trainer
 from pytorch_lightning.callbacks import ModelCheckpoint
 
-# Create lists to store values per epoch
-train_loss_per_epoch = []
-val_loss_per_epoch = []
-train_acc_per_epoch = []
-val_acc_per_epoch = []
+train_metrics_per_epoch = []
+val_metrics_per_epoch = []
 
 def get_trainer(args, return_trainer_only=True):
     ckpt_path = os.path.abspath(args.downstream_model_dir)
