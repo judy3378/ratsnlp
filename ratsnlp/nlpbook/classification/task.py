@@ -4,6 +4,7 @@ from ratsnlp.nlpbook.metrics import accuracy
 from pytorch_lightning import LightningModule
 from torch.optim.lr_scheduler import ExponentialLR
 from ratsnlp.nlpbook.classification.arguments import ClassificationTrainArguments
+from pytorch_lightning.callbacks import Callback
 
 
 class ClassificationTask(LightningModule):
