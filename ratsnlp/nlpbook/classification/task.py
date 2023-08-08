@@ -54,7 +54,7 @@ class MetricsHistoryCallback(Callback):
         self.val_acc_per_epoch = []
 
     def on_epoch_end(self, trainer, pl_module):
-        self.train_loss_per_epoch.append(trainer.logged_metrics['loss'])
-        self.val_loss_per_epoch.append(trainer.logged_metrics['val_loss'])
-        self.train_acc_per_epoch.append(trainer.logged_metrics['acc'])
-        self.val_acc_per_epoch.append(trainer.logged_metrics['val_acc'])
+        self.train_loss_per_epoch.append((trainer.current_epoch, trainer.logged_metrics['loss']))
+        self.val_loss_per_epoch.append((trainer.current_epoch,trainer.logged_metrics['val_loss']))
+        self.train_acc_per_epoch.append((trainer.current_epoch,trainer.logged_metrics['acc']))
+        self.val_acc_per_epoch.append((trainer.current_epoch,trainer.logged_metrics['val_acc']))
