@@ -49,7 +49,16 @@ class NsmcCorpus:
         return examples
 
     def get_labels(self):
-        labels = labels = ['news_r','his_cul','paper','edit']
+        labels = ['news_r',
+    'briefing',
+    'his_cul',
+    'paper',
+    'minute',
+    'edit',
+    'public',
+    'speech',
+    'literature',
+    'narration' ]
         return labels
 
     @property
